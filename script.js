@@ -60,15 +60,19 @@ function loadWeather(cityElement) {
         weatherSpans[index].innerText = temperatures[cityIndex].weather[index];
         if (weatherSpans[index].innerText == "some rain") {
             weatherImgs[index].src = "./assets/some_rain.png";
+            weatherImgs[index].alt = "some rain";
         }
         else if (weatherSpans[index].innerText == "some sun") {
             weatherImgs[index].src = "./assets/some_sun.png";
+            weatherImgs[index].alt = "some sun";
         }
         else if(weatherSpans[index].innerText == "some storms") {
             weatherImgs[index].src = "./assets/some_storms.png";
+            weatherImgs[index].alt = "some storms";
         }
         else {
             weatherImgs[index].src = "./assets/some_clouds.png";
+            weatherImgs[index].alt = "some clouds";
         }
     }
 }
