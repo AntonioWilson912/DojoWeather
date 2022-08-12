@@ -1,28 +1,92 @@
 var cookie = document.querySelector("#cookie");
+var temperatureScale = document.querySelector("#temperature-scale");
 
-var tempHighsCelsius = [24, 27, 21, 26];
-var tempLowsCelsius = [18, 19, 16, 21];
+var currentCity = document.querySelector("#current-city");
 
-var tempHighsFahrenheit = [75, 80, 69, 78];
-var tempLowsFahrenheit = [65, 66, 61, 70];
+var temperatureSpans = document.querySelectorAll(".row p span");
 
-function loadingMessage() {
+var weatherImgs = document.querySelectorAll("img.card-img");
+var weatherSpans = document.querySelectorAll("div.flex.card > p");
+
+var cityIndex = 0;
+
+// initial scale will be celsius
+var temperatures = [
+    {
+        city: "Sist-Ar System",
+        lows: [25, 30, 27, 29],
+        highs: [41, 36, 43, 51],
+        weather: ["some sun", "some sun", "some rain", "some rain"]
+    },
+    {
+        city: "Mars",
+        lows: [3, 1, 7, 4],
+        highs: [10, 14, 9, 13],
+        weather: ["some storms", "some clouds", "some rain", "some sun"]
+    },
+    {
+        city: "Mordor",
+        lows: [10, 15, 16, 15],
+        highs: [21, 24, 22, 29],
+        weather: ["some clouds", "some sun", "some storms", "some rain"]
+    },
+    {
+        city: "Narnia",
+        lows: [19, 4, 11, 21],
+        highs: [26, 17, 20, 31],
+        weather: ["some sun", "some sun", "some clouds", "some clouds"]
+    }
+];
+
+function loadWeather(cityElement) {
     alert("Loading weather report...");
-}
+    var tempCity = currentCity.innerText;
+    currentCity.innerText = cityElement.innerText;
+    cityElement.innerText = tempCity;
 
-function convertTemperatures(element) {
-    var scale = element.value;
-    var temperatureSpans = document.querySelectorAll(".row p span");
-    if (scale == "celsius") {
-        for (var index = 0; index < tempHighsCelsius.length; index++) {
-            temperatureSpans[index * 2].innerText = tempHighsCelsius[index];
-            temperatureSpans[index * 2 + 1].innerText = tempLowsCelsius[index];
+    // select the city from the temperatures object
+    for (var i = 0; i < temperatures.length; i++) {
+        if (temperatures[i].city == currentCity.innerText) {
+            cityIndex = i;
+            break;
         }
     }
-    else { // scale is set to "F" for Fahrenheit
-        for (var index = 0; index < tempHighsFahrenheit.length; index++) {
-            temperatureSpans[index * 2].innerText = tempHighsFahrenheit[index];
-            temperatureSpans[index * 2 + 1].innerText = tempLowsFahrenheit[index];
+
+    // load up all the temperatures
+    loadTemperatures();
+
+    // convert all the images and weather descriptions
+    for (var index = 0; index < temperatures[cityIndex].weather.length; index++) {
+        weatherSpans[index].innerText = temperatures[cityIndex].weather[index];
+        if (weatherSpans[index].innerText == "some rain") {
+            weatherImgs[index].src = "./assets/some_rain.png";
+        }
+        else if (weatherSpans[index].innerText == "some sun") {
+            weatherImgs[index].src = "./assets/some_sun.png";
+        }
+        else if(weatherSpans[index].innerText == "some storms") {
+            weatherImgs[index].src = "./assets/some_storms.png";
+        }
+        else {
+            weatherImgs[index].src = "./assets/some_clouds.png";
+        }
+    }
+}
+
+function loadTemperatures() {
+    var scale = temperatureScale.value;
+
+    if (scale == "celsius") {
+        for (var index = 0; index < temperatures[cityIndex].highs.length; index++) {
+            temperatureSpans[index * 2].innerText = temperatures[cityIndex].highs[index];
+            temperatureSpans[index * 2 + 1].innerText = temperatures[cityIndex].lows[index];
+        }
+    }
+    else {
+        // Convert to Fahrenheit
+        for (var index = 0; index < temperatures[cityIndex].highs.length; index++) {
+            temperatureSpans[index * 2].innerText = Math.round(temperatures[cityIndex].highs[index] * 1.8 + 32);
+            temperatureSpans[index * 2 + 1].innerText = Math.round(temperatures[cityIndex].lows[index] * 1.8 + 32);
         }
     }
 }
@@ -30,3 +94,12 @@ function convertTemperatures(element) {
 function closeCookie() {
     cookie.remove();
 }
+
+cookie.style.visibility = "hidden";
+
+loadTemperatures();
+
+
+setTimeout(() => {
+    cookie.style.visibility = "visible";
+}, 5000);

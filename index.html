@@ -14,10 +14,10 @@
         <div class="col-1"></div>
         <div class="nav-bar flex">
             <h1>DojoWeather</h1>
-            <div class="nav-links wrap">
-                <p onclick="loadingMessage()">Burbank</p>
-                <p onclick="loadingMessage()">Chicago</p>
-                <p onclick="loadingMessage()">Dallas</p>
+            <div class="nav-links">
+                <p id="city-one" onclick="loadWeather(this)">Mars</p>
+                <p id="city-two" onclick="loadWeather(this)">Mordor</p>
+                <p id="city-three" onclick="loadWeather(this)">Narnia</p>
             </div>
         </div>
         <div class="col-1"></div>
@@ -25,9 +25,9 @@
     <div class="flex">
         <div class="col-1"></div>
         <div class="header flex">
-            <h2>San Jose</h2>
+            <h2 id="current-city">Sist-Ar System</h2>
             <span>Show temperature in
-                <select id="temperature-scale" onchange="convertTemperatures(this)">
+                <select id="temperature-scale" onchange="loadTemperatures()">
                     <option value="celsius" selected>°C</option>
                     <option value="fahrenheit">°F</option>
                 </select>
